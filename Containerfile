@@ -56,8 +56,14 @@ RUN mkdir -p /etc/niri \
  && echo 'spawn-at-startup "noctalia"' >> /etc/niri/config.kdl
 
 # Enable graphical login
-RUN systemctl enable gdm.service && \
+# RUN systemctl enable gdm.service && \
+#    systemctl set-default graphical.target
+
+# Enable GDM instead of Plasma Login
+RUN rm -f /etc/systemd/system/display-manager.service && \
+    systemctl enable gdm.service && \
     systemctl set-default graphical.target
+
 # Cleanup (leave this here)
 RUN rm -rf /var && \
     mkdir -p /var/tmp
