@@ -1,4 +1,4 @@
-FROM i.anatase.org/base:stable
+FROM i.anatase.org/base:rolling
 
 # Fedora 45 Xfce desktop packages, slimmed down
 # https://forge.fedoraproject.org/releng/fedora-comps/src/branch/main/comps-f45.xml.in
