@@ -1,4 +1,4 @@
-FROM i.anatase.org/base:stable
+FROM i.anatase.org/base:rolling
 
 # Niri + Noctalia desktop and utilities
 RUN dnf -y --setopt=install_weak_deps=False install \
