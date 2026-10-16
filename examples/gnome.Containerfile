@@ -2,8 +2,6 @@ FROM i.anatase.org/base:stable
 
 # Fedora 45 GNOME desktop packages, slimmed down
 # https://forge.fedoraproject.org/releng/fedora-comps/src/branch/main/comps-f45.xml.in
-# Keep weak dependencies disabled as HHD provides power management,
-# so we do not want to pull in tuned or power-profiles-daemon alongside it.
 RUN dnf -y --setopt=install_weak_deps=False install \
     dconf \
     gdm \
@@ -17,8 +15,9 @@ RUN dnf -y --setopt=install_weak_deps=False install \
     ptyxis \
     fprintd-pam \
     gnome-bluetooth \
-    gnome-keyring \
-    gnome-keyring-pam \
+    oo7-daemon \
+    oo7-portal \
+    pam_oo7 \
     gnome-user-share \
     gvfs-afc \
     gvfs-fuse \
