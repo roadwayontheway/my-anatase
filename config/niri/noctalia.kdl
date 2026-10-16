@@ -1,0 +1,82 @@
+
+ // Start Noctalia when Niri starts.
+spawn-at-startup "noctalia"
+
+// Rounded corners for all windows.
+window-rule {
+    geometry-corner-radius 20
+    clip-to-geometry true
+}
+
+// Make Noctalia's Settings window float at a useful size.
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
+}
+
+// Improve activation of windows from notification actions.
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+// Noctalia keybindings.
+// These override conflicting bindings from Niri's default config.
+binds {
+    // Launcher, control center, Settings and window switcher.
+    Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Mod+S { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
+    Alt+Tab { spawn-sh "noctalia msg window-switcher hold"; }
+
+    // Volume.
+    XF86AudioRaiseVolume { spawn-sh "noctalia msg volume-up"; }
+    XF86AudioLowerVolume { spawn-sh "noctalia msg volume-down"; }
+    XF86AudioMute { spawn-sh "noctalia msg volume-mute"; }
+
+    // Laptop brightness.
+    XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
+}
+
+// Wallpaper Option 1: put Noctalia's blurred backdrop
+// inside Niri's overview background.
+layer-rule {
+    match namespace="^noctalia-backdrop"
+    place-within-backdrop true
+}
+
+// Blur windows, sampling the content behind them.
+window-rule {
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// Noctalia bars, notifications, dock and panels.
+// Preserve blur while avoiding wallpaper-only sampling.
+layer-rule {
+    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+    background-effect {
+        xray false
+    }
+}
+
+// Blur Noctalia's window switcher.
+layer-rule {
+    match namespace="noctalia-window-switcher"
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// Global blur tuning.
+blur {
+    passes 2
+    offset 3.0
+    noise 0.03
+    saturation 1.0
+}
